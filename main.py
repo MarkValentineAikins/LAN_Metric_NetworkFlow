@@ -49,28 +49,27 @@ average_throughput = sum(throughput_samples) / len(throughput_samples)
 average_packet_loss = sum(packet_loss_samples) / len(packet_loss_samples)
 average_latency = sum(latency_samples) / len(latency_samples)
 
+# Calculate maximum efficient data transmission rate
+max_efficient_throughput = calculate_max_efficient_throughput()
+
 # Print metrics
 print("Average Throughput: {:.2f} bytes/s".format(average_throughput))
 print("Average Packet Loss Rate: {:.2f}".format(average_packet_loss))
 print("Average Latency: {:.2f} ms".format(average_latency))
-
-# Calculate maximum efficient data transmission rate
-max_efficient_throughput = calculate_max_efficient_throughput()
 print("Maximum Efficient Throughput: {:.2f} bytes/s".format(max_efficient_throughput))
 
 # Export metrics to CSV file
-def export_metrics_to_csv(throughput_samples, packet_loss_samples, latency_samples):
+def export_metrics_to_csv(throughput_samples, packet_loss_samples, latency_samples, max_efficient_throughput):
     filename = "lan_metrics.csv"
 
     with open(filename, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(["Throughput (bytes/s)", "Packet Loss Rate", "Latency (ms)"])
+        writer.writerow(["Throughput (bytes/s)", "Packet Loss Rate", "Latency (ms)", "Max Efficient Throughput (bytes/s)"])
 
         for i in range(len(throughput_samples)):
-            writer.writerow([throughput_samples[i], packet_loss_samples[i], latency_samples[i]])
+            writer.writerow([throughput_samples[i], packet_loss_samples[i], latency_samples[i], max_efficient_throughput])
 
     print("Metrics exported to {}".format(filename))
 
 # Export metrics to CSV file
-export_metrics_to_csv(throughput_samples, packet_loss_samples, latency_samples)
-
+export_metrics_to_csv(throughput_samples, packet_loss_samples, latency_samples, max_efficient_throughput)
